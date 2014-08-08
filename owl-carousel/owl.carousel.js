@@ -1156,7 +1156,7 @@ if (typeof Object.create !== "function") {
                     continue;
                 }
                 if ($item.data("owl-loaded") === undefined) {
-                    $lazyImg.hide();
+//                    $lazyImg.hide();
                     $item.addClass("loading").data("owl-loaded", "checked");
                 }
                 if (base.options.lazyFollow === true) {
@@ -1164,7 +1164,7 @@ if (typeof Object.create !== "function") {
                 } else {
                     follow = true;
                 }
-                if (follow && itemNumber < base.currentItem + base.options.items && $lazyImg.length) {
+                if (follow && itemNumber < base.currentItem+base.options.lazyNext + base.options.items && $lazyImg.length) {
                     $lazyImg.each(function() {
                         base.lazyPreload($item, $(this));
                     });
@@ -1175,18 +1175,20 @@ if (typeof Object.create !== "function") {
         lazyPreload : function ($item, $lazyImg) {
             var base = this,
                 iterations = 0,
-                isBackgroundImg;
+                isBackgroundImg,
+                retina = window.devicePixelRatio > 1,
+                attrib = retina ? "data-src-2x" : "data-src";
 
             if ($lazyImg.prop("tagName") === "DIV") {
                 $lazyImg.css("background-image", "url(" + $lazyImg.data("src") + ")");
                 isBackgroundImg = true;
             } else {
-                $lazyImg[0].src = $lazyImg.data("src");
+                $lazyImg[0].src = $lazyImg.attr(attrib);
             }
 
             function showImage() {
                 $item.data("owl-loaded", "loaded").removeClass("loading");
-                $lazyImg.removeAttr("data-src");
+                $lazyImg.removeAttr(attrib);
                 if (base.options.lazyEffect === "fade") {
                     $lazyImg.fadeIn(400);
                 } else {
@@ -1491,6 +1493,7 @@ if (typeof Object.create !== "function") {
         lazyLoad : false,
         lazyFollow : true,
         lazyEffect : "fade",
+        lazyNext : 1,
 
         autoHeight : false,
 
