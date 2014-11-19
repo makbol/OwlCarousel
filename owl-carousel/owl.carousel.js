@@ -1156,7 +1156,6 @@ if (typeof Object.create !== "function") {
                     continue;
                 }
                 if ($item.data("owl-loaded") === undefined) {
-//                    $lazyImg.hide();
                     $item.addClass("loading").data("owl-loaded", "checked");
                 }
                 if (base.options.lazyFollow === true) {
@@ -1188,7 +1187,6 @@ if (typeof Object.create !== "function") {
 
             function showImage() {
                 $item.data("owl-loaded", "loaded").removeClass("loading");
-                $lazyImg.removeAttr(attrib);
                 if (base.options.lazyEffect === "fade") {
                     $lazyImg.fadeIn(400);
                 } else {
