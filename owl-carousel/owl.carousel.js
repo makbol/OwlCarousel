@@ -1171,12 +1171,22 @@ if (typeof Object.create !== "function") {
             }
         },
 
+        getSrcAttrib : function($lazyImg) {
+            var retina = window.devicePixelRatio > 1,
+                dataAttr = 'data-src',
+                dataAttr2x = 'data-src-2x';
+                
+            if (retina && $lazyImg.attr(dataAttr2x)) { 
+                return dataAttr2x;
+            }
+            return dataAttr;
+        },
+
         lazyPreload : function ($item, $lazyImg) {
             var base = this,
                 iterations = 0,
                 isBackgroundImg,
-                retina = window.devicePixelRatio > 1,
-                attrib = retina ? "data-src-2x" : "data-src";
+                attrib = this.getSrcAttrib($lazyImg);
 
             if ($lazyImg.prop("tagName") === "DIV") {
                 $lazyImg.css("background-image", "url(" + $lazyImg.data("src") + ")");
